@@ -10,14 +10,14 @@ namespace PoPUnturnedLauncher
         private static bool _isInitialized = false;
         private static int _currentTrackIndex = -1;
 
-        // Lista de 5 Pistas Lo-Fi Chill distintas de alta calidad (libres de derechos / royalty-free)
+        // Lista de 5 Pistas Lo-Fi Chill distintas de alta calidad (libres de derechos y sin bloqueo CDN)
         private static readonly string[] _playlistUrls = new string[]
         {
-            "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3",       // Pista 1: Study Chill
-            "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a8161c.mp3?filename=chill-lofi-song-8444.mp3",       // Pista 2: Midnight Lounge
-            "https://cdn.pixabay.com/download/audio/2023/04/18/audio_24856f4d2f.mp3?filename=lofi-study-medium-149876.mp3", // Pista 3: Coffee Shop Beats
-            "https://cdn.pixabay.com/download/audio/2022/11/06/audio_9b6574f85e.mp3?filename=ambient-lofi-chill-126227.mp3",  // Pista 4: Night Rain Ambient
-            "https://cdn.pixabay.com/download/audio/2022/10/14/audio_993f350c30.mp3?filename=cozy-lofi-song-122718.mp3"       // Pista 5: Cozy Sunset
+            "https://ia801503.us.archive.org/15/items/ChillLofiSong/chill-lofi-song.mp3",
+            "https://raw.githubusercontent.com/AnishDe12020/chill-zone/main/music/lofi1.mp3",
+            "https://raw.githubusercontent.com/AnishDe12020/chill-zone/main/music/lofi2.mp3",
+            "https://raw.githubusercontent.com/AnishDe12020/chill-zone/main/music/lofi3.mp3",
+            "https://ia601503.us.archive.org/15/items/ChillLofiSong/lofi-study.mp3"
         };
 
         public static bool IsPlaying { get; private set; } = false;
@@ -30,6 +30,7 @@ namespace PoPUnturnedLauncher
             try
             {
                 _player.MediaEnded += Player_MediaEnded;
+                _player.MediaFailed += Player_MediaFailed;
 
                 // Cargar volumen y preferencia de reproducción
                 var config = ConfigManager.Current;
@@ -47,6 +48,13 @@ namespace PoPUnturnedLauncher
             {
                 System.Diagnostics.Debug.WriteLine($"Error inicializando AudioManager: {ex.Message}");
             }
+        }
+
+        private static void Player_MediaFailed(object? sender, ExceptionEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"MediaFailed en la pista {_currentTrackIndex}: {e.ErrorException?.Message}");
+            // Si falla la transmisión por red, intentar con la siguiente pista de forma transparente
+            PlayRandomTrack();
         }
 
         private static void PlayRandomTrack()
