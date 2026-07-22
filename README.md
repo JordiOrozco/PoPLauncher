@@ -91,29 +91,6 @@ El launcher cuenta con una interfaz **Glassmorphism de alta fidelidad** basada e
 
 ---
 
-## 📦 Compilación desde el Código Fuente
-
-Si deseas compilar el proyecto manualmente en tu equipo:
-
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/JordiOrozco/PoPLauncher.git
-   cd PoPLauncher
-   ```
-
-2. Compila la solución con el SDK de .NET 8:
-   ```bash
-   dotnet build src/PoPUnturnedLauncher/PoPUnturnedLauncher.csproj -c Release
-   ```
-
-3. Generar el paquete e instalador ejecutable automático:
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File build.ps1
-   ```
-   *El ejecutable final `PoPUnturnedSetup.exe` se generará en la raíz del proyecto.*
-
----
-
 ## 📝 Licencia
 
 Este proyecto está distribuido bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
