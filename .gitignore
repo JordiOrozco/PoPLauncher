@@ -10,6 +10,9 @@ src/publish/
 *.userosscache
 *.sln.docstates
 
+# Build Scripts & Local Utilities
+build.ps1
+
 # OS generated files
 thumbs.db
 ehthumbs.db
