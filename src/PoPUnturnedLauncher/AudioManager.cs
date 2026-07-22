@@ -139,8 +139,10 @@ namespace PoPUnturnedLauncher
         {
             try
             {
-                double vol = Math.Clamp(volumePercent / 100.0, 0.0, 1.0);
-                _player.Volume = vol;
+                // Normalización con ganancia maestra atenuada (0.20): Al 50% en la UI, se escucha al 10% real (ambiente muy suave y relajante)
+                double normalized = Math.Clamp(volumePercent / 100.0, 0.0, 1.0);
+                double masterGain = 0.20;
+                _player.Volume = Math.Clamp(normalized * masterGain, 0.0, 1.0);
             }
             catch { }
         }

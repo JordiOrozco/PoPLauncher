@@ -21,7 +21,7 @@ namespace PoPUnturnedLauncher
         public string CustomWorkshopPath { get; set; } = "";
         public string UpdateCheckUrl { get; set; } = "https://raw.githubusercontent.com/JordiOrozco/PoPLauncher/main/version.json";
         public bool EnableMusic { get; set; } = true;
-        public double MusicVolume { get; set; } = 20.0;
+        public double MusicVolume { get; set; } = 50.0;
         public string LauncherVersion { get; set; } = "1.0.0";
     }
 
