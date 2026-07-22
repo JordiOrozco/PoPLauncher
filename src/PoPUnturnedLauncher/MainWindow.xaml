@@ -568,7 +568,7 @@
                             <StackPanel Margin="0,0,0,20">
                                 <Grid Margin="0,0,0,8">
                                     <TextBlock Style="{StaticResource SleekTextStyle}" Text="🎵 Volumen de Música de Ambiente (Lo-Fi Chill)" FontSize="13" FontWeight="SemiBold"/>
-                                    <TextBlock x:Name="MusicVolumeText" Style="{StaticResource SleekTextStyle}" Text="30%" FontSize="13" FontWeight="Bold" Foreground="#FFE300" HorizontalAlignment="Right"/>
+                                    <TextBlock x:Name="MusicVolumeText" Style="{StaticResource SleekTextStyle}" Text="10%" FontSize="13" FontWeight="Bold" Foreground="#FFE300" HorizontalAlignment="Right"/>
                                 </Grid>
                                 <TextBlock Style="{StaticResource SleekTextStyle}" Text="Ajusta el volumen de la música relajante de fondo del launcher" FontSize="11" Opacity="0.6" Margin="0,0,0,10"/>
                                 <Slider x:Name="MusicVolumeSlider" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="MusicVolumeSlider_ValueChanged" Height="24" Cursor="Hand"/>
