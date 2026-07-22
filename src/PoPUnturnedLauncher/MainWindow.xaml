@@ -149,6 +149,67 @@
             </Setter>
         </Style>
 
+        <!-- Estilo de Botón Primario Pequeño (Para Modales - Altura 38) -->
+        <Style x:Key="SmallPrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FF6A00" Offset="0.0"/>
+                        <GradientStop Color="#EE0000" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Segoe UI, Arial"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="19" 
+                                BorderThickness="1" 
+                                BorderBrush="#50FFFFFF"
+                                Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect x:Name="shadow" Color="#FF3A00" BlurRadius="10" Opacity="0.5" ShadowDepth="0"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#FF7A10" Offset="0.0"/>
+                                            <GradientStop Color="#FF1111" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!-- Estilo de Botón Secundario (Gris Oscuro Glassmorphic) -->
         <Style x:Key="SecondaryButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#25FFFFFF"/>
@@ -532,102 +593,104 @@
 
                 <!-- 4. MODAL OVERLAY DE OPCIONES / CONFIGURACIÓN -->
                 <Grid x:Name="OptionsModal" Grid.RowSpan="3" Background="#D50A0A0C" Visibility="Collapsed">
-                    <Border Width="670" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#1C1B20" CornerRadius="16" BorderThickness="1" BorderBrush="#35FFFFFF" Padding="25">
+                    <Border Width="680" MaxHeight="570" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#1C1B20" CornerRadius="16" BorderThickness="1" BorderBrush="#35FFFFFF" Padding="25,20,25,25">
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="40" Color="Black" Opacity="0.85" ShadowDepth="10"/>
                         </Border.Effect>
 
-                        <StackPanel>
-                            <!-- Cabecera del Modal -->
-                            <Grid Margin="0,0,0,20">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Path Data="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6-3.6z" 
-                                          Fill="#FF3A00" Width="18" Height="18" Stretch="Uniform" Margin="0,0,10,0"/>
-                                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="OPCIONES Y CONFIGURACIÓN" FontSize="16" FontWeight="Bold"/>
-                                </StackPanel>
-                                
-                                <Button Style="{StaticResource WindowCloseButtonStyle}" HorizontalAlignment="Right" Click="CloseOptions_Click">
-                                    <TextBlock Text="✕" FontSize="14" Foreground="White"/>
-                                </Button>
-                            </Grid>
-
-                            <!-- Divisor -->
-                            <Border BorderThickness="0,0,0,1" BorderBrush="#20FFFFFF" Margin="0,0,0,20"/>
-
-                            <!-- SECCIÓN 1: VOLUMEN DE VEHÍCULOS -->
-                            <StackPanel Margin="0,0,0,20">
-                                <Grid Margin="0,0,0,8">
-                                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="🔊 Volumen del Motor de Vehículos" FontSize="13" FontWeight="SemiBold"/>
-                                    <TextBlock x:Name="VehicleVolumeText" Style="{StaticResource SleekTextStyle}" Text="100%" FontSize="13" FontWeight="Bold" Foreground="#FFE300" HorizontalAlignment="Right"/>
-                                </Grid>
-                                <TextBlock Style="{StaticResource SleekTextStyle}" Text="Modifica el parámetro Vehicle_Engine_Volume_Multiplier en Preferences.json" FontSize="11" Opacity="0.6" Margin="0,0,0,10"/>
-                                <Slider x:Name="VehicleVolumeSlider" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="VehicleVolumeSlider_ValueChanged" Height="24" Cursor="Hand"/>
-                            </StackPanel>
-
-                            <!-- SECCIÓN 2: VOLUMEN MÚSICA DE AMBIENTE LO-FI -->
-                            <StackPanel Margin="0,0,0,20">
-                                <Grid Margin="0,0,0,8">
-                                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="🎵 Volumen de Música de Ambiente (Lo-Fi Chill)" FontSize="13" FontWeight="SemiBold"/>
-                                    <TextBlock x:Name="MusicVolumeText" Style="{StaticResource SleekTextStyle}" Text="50%" FontSize="13" FontWeight="Bold" Foreground="#FFE300" HorizontalAlignment="Right"/>
-                                </Grid>
-                                <TextBlock Style="{StaticResource SleekTextStyle}" Text="Ajusta el volumen de la música relajante de fondo del launcher" FontSize="11" Opacity="0.6" Margin="0,0,0,10"/>
-                                <Slider x:Name="MusicVolumeSlider" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="MusicVolumeSlider_ValueChanged" Height="24" Cursor="Hand"/>
-                            </StackPanel>
-
-                            <!-- SECCIÓN 2: RUTA UNTURNED -->
-                            <StackPanel Margin="0,0,0,20">
-                                <TextBlock Style="{StaticResource SleekTextStyle}" Text="📁 Carpeta de Unturned (Contiene Preferences.json)" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                                <TextBlock Style="{StaticResource SleekTextStyle}" Text="Selecciona si Unturned está instalado en otro disco o ruta personalizada." FontSize="11" Opacity="0.6" Margin="0,0,0,8"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox x:Name="UnturnedPathTextBox" Style="{StaticResource SleekTextBoxStyle}"/>
-                                    <Button Grid.Column="1" Style="{StaticResource SecondaryButtonStyle}" Content="Buscar..." Width="90" Height="32" Margin="8,0,0,0" Click="BrowseUnturned_Click"/>
-                                </Grid>
-                            </StackPanel>
-
-                            <!-- SECCIÓN 3: RUTA MODS / WORKSHOP -->
-                            <StackPanel Margin="0,0,0,25">
-                                <TextBlock Style="{StaticResource SleekTextStyle}" Text="📦 Carpeta de Mods de Workshop (ID: 304930)" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                                <TextBlock Style="{StaticResource SleekTextStyle}" Text="Ruta del contenido de la Workshop para limpiar mods cuando sea necesario." FontSize="11" Opacity="0.6" Margin="0,0,0,8"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox x:Name="WorkshopPathTextBox" Style="{StaticResource SleekTextBoxStyle}"/>
-                                    <Button Grid.Column="1" Style="{StaticResource SecondaryButtonStyle}" Content="Buscar..." Width="90" Height="32" Margin="8,0,0,0" Click="BrowseWorkshop_Click"/>
-                                </Grid>
-                            </StackPanel>
-
-                            <!-- BOTONES DE ACCIÓN INFERIORES -->
-                            <Grid Margin="0,10,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Restablecer Autodetección -->
-                                <Button Grid.Column="0" Style="{StaticResource SecondaryButtonStyle}" Content="Restablecer Autodetección" Padding="15,0" Height="38" Click="ResetOptions_Click"/>
-
-                                <!-- Grupo Derecho: Borrar Mods + Guardar y Aplicar -->
-                                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <!-- Botón Limpiar Mods desde Opciones -->
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Padding="15,0" Height="38" Click="DeleteMods_Click">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="🧹" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Borrar Mods" VerticalAlignment="Center"/>
-                                        </StackPanel>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
+                            <StackPanel Margin="0,0,5,0">
+                                <!-- Cabecera del Modal -->
+                                <Grid Margin="0,0,0,15">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Path Data="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6-3.6z" 
+                                              Fill="#FF3A00" Width="18" Height="18" Stretch="Uniform" Margin="0,0,10,0"/>
+                                        <TextBlock Style="{StaticResource SleekTextStyle}" Text="OPCIONES Y CONFIGURACIÓN" FontSize="16" FontWeight="Bold"/>
+                                    </StackPanel>
+                                    
+                                    <Button Style="{StaticResource WindowCloseButtonStyle}" HorizontalAlignment="Right" Click="CloseOptions_Click">
+                                        <TextBlock Text="✕" FontSize="14" Foreground="White"/>
                                     </Button>
+                                </Grid>
 
-                                    <!-- Botón Guardar y Aplicar -->
-                                    <Button Style="{StaticResource PrimaryActionButtonStyle}" Content="Guardar y Aplicar" Padding="20,0" Height="38" Click="SaveOptions_Click"/>
+                                <!-- Divisor -->
+                                <Border BorderThickness="0,0,0,1" BorderBrush="#20FFFFFF" Margin="0,0,0,15"/>
+
+                                <!-- SECCIÓN 1: VOLUMEN DE VEHÍCULOS -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <Grid Margin="0,0,0,6">
+                                        <TextBlock Style="{StaticResource SleekTextStyle}" Text="🔊 Volumen del Motor de Vehículos" FontSize="13" FontWeight="SemiBold"/>
+                                        <TextBlock x:Name="VehicleVolumeText" Style="{StaticResource SleekTextStyle}" Text="100%" FontSize="13" FontWeight="Bold" Foreground="#FFE300" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="Modifica el parámetro Vehicle_Engine_Volume_Multiplier en Preferences.json" FontSize="11" Opacity="0.6" Margin="0,0,0,8"/>
+                                    <Slider x:Name="VehicleVolumeSlider" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="VehicleVolumeSlider_ValueChanged" Height="24" Cursor="Hand"/>
                                 </StackPanel>
-                            </Grid>
-                        </StackPanel>
+
+                                <!-- SECCIÓN 2: VOLUMEN MÚSICA DE AMBIENTE LO-FI -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <Grid Margin="0,0,0,6">
+                                        <TextBlock Style="{StaticResource SleekTextStyle}" Text="🎵 Volumen de Música de Ambiente (Lo-Fi Chill)" FontSize="13" FontWeight="SemiBold"/>
+                                        <TextBlock x:Name="MusicVolumeText" Style="{StaticResource SleekTextStyle}" Text="50%" FontSize="13" FontWeight="Bold" Foreground="#FFE300" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="Ajusta el volumen de la música relajante de fondo del launcher" FontSize="11" Opacity="0.6" Margin="0,0,0,8"/>
+                                    <Slider x:Name="MusicVolumeSlider" Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="MusicVolumeSlider_ValueChanged" Height="24" Cursor="Hand"/>
+                                </StackPanel>
+
+                                <!-- SECCIÓN 3: RUTA UNTURNED -->
+                                <StackPanel Margin="0,0,0,15">
+                                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="📁 Carpeta de Unturned (Contiene Preferences.json)" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="Selecciona si Unturned está instalado en otro disco o ruta personalizada." FontSize="11" Opacity="0.6" Margin="0,0,0,6"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="UnturnedPathTextBox" Style="{StaticResource SleekTextBoxStyle}"/>
+                                        <Button Grid.Column="1" Style="{StaticResource SecondaryButtonStyle}" Content="Buscar..." Width="90" Height="32" Margin="8,0,0,0" Click="BrowseUnturned_Click"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- SECCIÓN 4: RUTA MODS / WORKSHOP -->
+                                <StackPanel Margin="0,0,0,18">
+                                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="📦 Carpeta de Mods de Workshop (ID: 304930)" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="Ruta del contenido de la Workshop para limpiar mods cuando sea necesario." FontSize="11" Opacity="0.6" Margin="0,0,0,6"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="WorkshopPathTextBox" Style="{StaticResource SleekTextBoxStyle}"/>
+                                        <Button Grid.Column="1" Style="{StaticResource SecondaryButtonStyle}" Content="Buscar..." Width="90" Height="32" Margin="8,0,0,0" Click="BrowseWorkshop_Click"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- BOTONES DE ACCIÓN INFERIORES -->
+                                <Grid Margin="0,15,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Restablecer Autodetección -->
+                                    <Button Grid.Column="0" Style="{StaticResource SecondaryButtonStyle}" Content="Restablecer Autodetección" Padding="15,0" Height="38" Click="ResetOptions_Click"/>
+
+                                    <!-- Grupo Derecho: Borrar Mods + Guardar y Aplicar -->
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <!-- Botón Limpiar Mods desde Opciones -->
+                                        <Button Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Padding="15,0" Height="38" Click="DeleteMods_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="🧹" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                <TextBlock Text="Borrar Mods" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+
+                                        <!-- Botón Guardar y Aplicar -->
+                                        <Button Style="{StaticResource SmallPrimaryButtonStyle}" Content="Guardar y Aplicar" Padding="20,0" Height="38" Click="SaveOptions_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
                     </Border>
                 </Grid>
 
