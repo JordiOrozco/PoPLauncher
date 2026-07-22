@@ -139,10 +139,17 @@ namespace PoPUnturnedLauncher
         {
             try
             {
-                // Normalización con ganancia maestra ultra-suave (0.02): Al 50% en la UI, equivale exactamente a 1% de volumen real
+                if (volumePercent <= 0)
+                {
+                    _player.Volume = 0.0;
+                    return;
+                }
+
+                // Mapeo perceptual suave sin cortes de cuantización de Windows WASAPI:
+                // Garantiza que cualquier porcentaje > 0% sea audible sin cortes de audio repentinos.
                 double normalized = Math.Clamp(volumePercent / 100.0, 0.0, 1.0);
-                double masterGain = 0.02;
-                _player.Volume = Math.Clamp(normalized * masterGain, 0.0, 1.0);
+                double realVolume = (normalized * 0.15) + 0.015; // 0.015 umbral mínimo audible continuo
+                _player.Volume = Math.Clamp(realVolume, 0.0, 1.0);
             }
             catch { }
         }
