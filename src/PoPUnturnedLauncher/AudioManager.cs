@@ -139,9 +139,9 @@ namespace PoPUnturnedLauncher
         {
             try
             {
-                // Normalización con ganancia maestra atenuada (0.20): Al 50% en la UI, se escucha al 10% real (ambiente muy suave y relajante)
+                // Normalización con ganancia maestra ultra-suave (0.04): Al 50% en la UI, equivale exactamente a 2% de volumen real
                 double normalized = Math.Clamp(volumePercent / 100.0, 0.0, 1.0);
-                double masterGain = 0.20;
+                double masterGain = 0.04;
                 _player.Volume = Math.Clamp(normalized * masterGain, 0.0, 1.0);
             }
             catch { }
