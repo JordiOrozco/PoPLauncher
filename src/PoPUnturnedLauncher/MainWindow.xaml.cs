@@ -354,10 +354,10 @@ namespace PoPUnturnedLauncher
             var config = ConfigManager.Current;
             config.CustomUnturnedPath = "";
             config.CustomWorkshopPath = "";
-            config.MusicVolume = 10.0;
+            config.MusicVolume = 2.0;
             ConfigManager.Save(config);
 
-            AudioManager.SetVolume(10.0);
+            AudioManager.SetVolume(2.0);
             LoadOptionsData();
             MessageBox.Show("Se ha restablecido la autodetección de rutas por defecto y el volumen de música.", "Opciones Restablecidas", MessageBoxButton.OK, MessageBoxImage.Information);
         }
