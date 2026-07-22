@@ -19,6 +19,9 @@
     <None Update="Assets\icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\*.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Resource Include="Assets\logo.png" />
     <Resource Include="Assets\icon.ico" />
   </ItemGroup>
