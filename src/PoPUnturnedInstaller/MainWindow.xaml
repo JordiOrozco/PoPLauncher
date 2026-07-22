@@ -1,0 +1,220 @@
+<Window x:Class="PoPUnturnedInstaller.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PoPUnturnedInstaller"
+        mc:Ignorable="d"
+        Title="Instalador PoPUnturned" 
+        Height="480" 
+        Width="400"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Icon="Assets/icon.ico">
+
+    <Window.Resources>
+        <!-- Estilo General de Texto -->
+        <Style x:Key="SleekTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI Semibold, Segoe UI, Arial"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+        </Style>
+
+        <!-- Estilo del Botón de Control (Cerrar) -->
+        <Style x:Key="WindowCloseButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#88FFFFFF"/>
+            <Setter Property="Width" Value="35"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E81123"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Estilo del Botón INSTALAR (Glow Premium) -->
+        <Style x:Key="InstallButtonStyle" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FFE300" Offset="0"/>
+                        <GradientStop Color="#FF3A00" Offset="0.5"/>
+                        <GradientStop Color="#A30000" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Segoe UI, Impact, Arial"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="25" 
+                                BorderThickness="1" 
+                                BorderBrush="#50FFFFFF"
+                                RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
+                            </Border.RenderTransform>
+                            <Border.Effect>
+                                <DropShadowEffect x:Name="shadow" Color="#FF3A00" BlurRadius="12" Opacity="0.5" ShadowDepth="0"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.04" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.04" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="shadow" Storyboard.TargetProperty="BlurRadius" To="18" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="shadow" Storyboard.TargetProperty="Opacity" To="0.75" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.0" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.0" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="shadow" Storyboard.TargetProperty="BlurRadius" To="12" Duration="0:0:0.1"/>
+                                            <DoubleAnimation Storyboard.TargetName="shadow" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#555555"/>
+                                <Setter Property="Foreground" Value="#88FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Estilo CheckBox Moderno -->
+        <Style x:Key="ModernCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Fondo Degradado Radial Estilo PoP -->
+        <Border CornerRadius="16">
+            <Border.Background>
+                <RadialGradientBrush Center="0.5,0.0" GradientOrigin="0.5,0.0" RadiusX="1.3" RadiusY="1.3">
+                    <GradientStop Color="#3A0808" Offset="0"/>
+                    <GradientStop Color="#141311" Offset="0.6"/>
+                    <GradientStop Color="#090909" Offset="1"/>
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Efecto de Capa de Vidrio -->
+        <Border CornerRadius="16" BorderThickness="1" BorderBrush="#25FFFFFF">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="25" Color="Black" Opacity="0.7" Direction="270" ShadowDepth="4"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>     <!-- Cabecera -->
+                    <RowDefinition Height="*"/>      <!-- Contenido -->
+                </Grid.RowDefinitions>
+
+                <!-- Barra de Arrastre -->
+                <Grid Grid.Row="0" Background="#10000000" MouseDown="Header_MouseDown">
+                    <TextBlock Style="{StaticResource SleekTextStyle}" Text="Instalador PoPUnturned" FontSize="11" Opacity="0.6" VerticalAlignment="Center" Margin="15,0,0,0"/>
+                    <Button Style="{StaticResource WindowCloseButtonStyle}" HorizontalAlignment="Right" Click="Close_Click">
+                        <TextBlock Text="✕" FontFamily="Segoe UI" FontSize="11" Foreground="White"/>
+                    </Button>
+                </Grid>
+
+                <!-- Contenido Principal -->
+                <Grid Grid.Row="1" Margin="25,10,25,25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>   <!-- Logo -->
+                        <RowDefinition Height="Auto"/>   <!-- Textos informativo -->
+                        <RowDefinition Height="*"/>      <!-- Progreso o Configuración -->
+                        <RowDefinition Height="Auto"/>   <!-- Botón Instalar -->
+                    </Grid.RowDefinitions>
+
+                    <!-- A. LOGO -->
+                    <Image Grid.Row="0" Source="Assets/logo.png" Height="140" HorizontalAlignment="Center" Margin="0,0,0,15" RenderOptions.BitmapScalingMode="HighQuality">
+                        <Image.Effect>
+                            <DropShadowEffect BlurRadius="20" Color="Black" Opacity="0.5" ShadowDepth="2"/>
+                        </Image.Effect>
+                    </Image>
+
+                    <!-- B. TEXTOS -->
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,20">
+                        <TextBlock Style="{StaticResource SleekTextStyle}" Text="INSTALACIÓN DE LAUNCHER" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#FFE300"/>
+                        <TextBlock Style="{StaticResource SleekTextStyle}" Text="Este asistente instalará el Launcher oficial de PoPUnturned en su sistema." FontSize="11" TextWrapping="Wrap" TextAlignment="Center" Opacity="0.75" Margin="0,8,0,0"/>
+                    </StackPanel>
+
+                    <!-- C. CONFIGURACIÓN / PROGRESO -->
+                    <Grid Grid.Row="2" VerticalAlignment="Center" Margin="10,0,10,0">
+                        <!-- Panel de Configuración Inicial -->
+                        <StackPanel x:Name="ConfigPanel" Visibility="Visible">
+                            <TextBlock Style="{StaticResource SleekTextStyle}" Text="Opciones de instalación:" FontSize="12" Margin="0,0,0,10" Opacity="0.8"/>
+                            <CheckBox x:Name="DesktopShortcutCheckbox" Style="{StaticResource ModernCheckBoxStyle}" Content="Crear acceso directo en el Escritorio" IsChecked="True" Margin="5,0,0,10"/>
+                            <CheckBox x:Name="StartMenuShortcutCheckbox" Style="{StaticResource ModernCheckBoxStyle}" Content="Crear acceso directo en el Menú Inicio" IsChecked="True" Margin="5,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Panel de Progreso (Oculto al inicio) -->
+                        <StackPanel x:Name="ProgressPanel" Visibility="Collapsed">
+                            <TextBlock x:Name="StatusText" Style="{StaticResource SleekTextStyle}" Text="Instalando archivos..." FontSize="13" Margin="0,0,0,10"/>
+                            <ProgressBar x:Name="InstallProgressBar" Height="14" Minimum="0" Maximum="100" Value="0" Background="#15FFFFFF" BorderThickness="0">
+                                <ProgressBar.Foreground>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Color="#FFE300" Offset="0"/>
+                                        <GradientStop Color="#FF3A00" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </ProgressBar.Foreground>
+                            </ProgressBar>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- D. BOTÓN INSTALAR -->
+                    <Button x:Name="InstallButton" Grid.Row="3" Style="{StaticResource InstallButtonStyle}" Content="INSTALAR AHORA" Click="Install_Click"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

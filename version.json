@@ -1,0 +1,6 @@
+{
+  "latestVersion": "1.0.0",
+  "downloadUrl": "https://github.com/JordiOrozco/PoPLauncher/releases/latest/download/PoPUnturnedSetup.exe",
+  "releaseNotes": "• Ajuste de volumen de vehículos (Preferences.json).\n• Selector de carpetas de Unturned y Mods.\n• Iconos oficiales de redes sociales.\n• Sistema de actualización automática integrado.",
+  "mandatory": false
+}
