@@ -33,6 +33,10 @@ namespace PoPUnturnedLauncher
         {
             // Cargar configuración de red inicial e interfaz
             UpdateWorkshopStatus();
+
+            // Inicializar reproductor de música Lo-Fi Chill
+            AudioManager.Initialize();
+            UpdateMusicButtonUI(AudioManager.IsPlaying);
             
             // Consultar el servidor inmediatamente al cargar
             await RefreshServerStatusAsync();
@@ -40,6 +44,31 @@ namespace PoPUnturnedLauncher
 
             // Comprobar actualizaciones en segundo plano
             await CheckUpdatesBackgroundAsync();
+        }
+
+        private void MusicToggle_Click(object sender, RoutedEventArgs e)
+        {
+            bool isPlaying = AudioManager.ToggleMute();
+            UpdateMusicButtonUI(isPlaying);
+        }
+
+        private void UpdateMusicButtonUI(bool isPlaying)
+        {
+            if (MusicIconText != null)
+            {
+                if (isPlaying)
+                {
+                    MusicIconText.Text = "🎵";
+                    MusicIconText.Opacity = 1.0;
+                    MusicToggleButton.ToolTip = "Música de ambiente Lo-Fi (Silenciar)";
+                }
+                else
+                {
+                    MusicIconText.Text = "🔇";
+                    MusicIconText.Opacity = 0.5;
+                    MusicToggleButton.ToolTip = "Música de ambiente Lo-Fi (Activar)";
+                }
+            }
         }
 
         private async Task CheckUpdatesBackgroundAsync()
@@ -253,6 +282,9 @@ namespace PoPUnturnedLauncher
             float currentVolume = PreferencesManager.GetVehicleEngineVolume(unturnedDir);
             VehicleVolumeSlider.Value = Math.Round(currentVolume * 100);
             VehicleVolumeText.Text = $"{VehicleVolumeSlider.Value}%";
+
+            MusicVolumeSlider.Value = ConfigManager.Current.MusicVolume;
+            MusicVolumeText.Text = $"{Math.Round(MusicVolumeSlider.Value)}%";
         }
 
         private void VehicleVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -260,6 +292,15 @@ namespace PoPUnturnedLauncher
             if (VehicleVolumeText != null)
             {
                 VehicleVolumeText.Text = $"{Math.Round(e.NewValue)}%";
+            }
+        }
+
+        private void MusicVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (MusicVolumeText != null)
+            {
+                MusicVolumeText.Text = $"{Math.Round(e.NewValue)}%";
+                AudioManager.SetVolume(e.NewValue);
             }
         }
 
@@ -313,10 +354,12 @@ namespace PoPUnturnedLauncher
             var config = ConfigManager.Current;
             config.CustomUnturnedPath = "";
             config.CustomWorkshopPath = "";
+            config.MusicVolume = 30.0;
             ConfigManager.Save(config);
 
+            AudioManager.SetVolume(30.0);
             LoadOptionsData();
-            MessageBox.Show("Se ha restablecido la autodetección de rutas por defecto de Steam.", "Opciones Restablecidas", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Se ha restablecido la autodetección de rutas por defecto y el volumen de música.", "Opciones Restablecidas", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void SaveOptions_Click(object sender, RoutedEventArgs e)
@@ -326,7 +369,10 @@ namespace PoPUnturnedLauncher
                 var config = ConfigManager.Current;
                 config.CustomUnturnedPath = UnturnedPathTextBox.Text.Trim();
                 config.CustomWorkshopPath = WorkshopPathTextBox.Text.Trim();
+                config.MusicVolume = MusicVolumeSlider.Value;
                 ConfigManager.Save(config);
+
+                AudioManager.SetVolume(config.MusicVolume);
 
                 // Guardar volumen de vehículos en Preferences.json de Unturned
                 string unturnedFolder = SteamHelper.GetUnturnedDirectory();
